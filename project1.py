@@ -7,10 +7,11 @@ import time
 
 input_arrays = []
 #switch to test problem set if desired
-#with open('MSS_TestProblems.txt') as inputs:
-with open('MSS_Problems.txt') as inputs:
+with open('MSS_TestProblems.txt') as inputs:
+#with open('MSS_Problems.txt') as inputs:
 	for line in inputs:
-		input_arrays.append(line.split())
+		sub_array = line.split()
+		input_arrays.append(map(int, sub_array))
 
 print input_arrays
 
@@ -26,8 +27,6 @@ def better_enumerate(input_array):
 
 def divide_and_conquer(input_array, low, high):
 	#low and high track the current actual indices of the original array
-
-	print(input_array)
 
 	if len(input_array) == 1:
 		return {"sum": input_array[0], "low_index": low, "high_index": high}
@@ -64,14 +63,6 @@ def divide_and_conquer(input_array, low, high):
 
 	mid_sum = left_sum + right_sum
 
-
-	print("left_sum: " + str(max_left))
-	print("right_sum: " + str(max_right))
-	print("mid_sum: " + str(mid_sum))
-	print("low_index: " + str(low_index))
-	print("high_index: " + str(high_index))
-	#TO DO - figure out how to print proper values if left or right side wins
-
 	if (max(max_left, max_right, mid_sum) == max_left):
 		return {"sum": max_left, "low_index": left_result["low_index"], "high_index": left_result["high_index"]}
 	elif (max(max_left, max_right, mid_sum) == max_right):
@@ -80,16 +71,17 @@ def divide_and_conquer(input_array, low, high):
 		return {"sum": mid_sum, "low_index": low_index, "high_index": high_index}
 
 def linear(input_array):
-  totalMax = currMax =currentIndex = start = end =  0
-  for idx, i in enumerate(input_array):
-      if currMax+i > 0:
-          currMax += i
-      else: 
-          currMax, currentIndex = 0, idx+1
+	"""totalMax = currMax =currentIndex = start = end =  0
+	for idx, i in enumerate(input_array):
+	  if currMax+i > 0:
+	      currMax += i
+	  else: 
+	      currMax, currentIndex = 0, idx+1
 
-      if currMax > totalMax:
-          start, end, totalMax = currentIndex, idx+1, currMax
-  return {"sum": totalMax, "subarray": input_array[start:end]}
+	  if currMax > totalMax:
+	      start, end, totalMax = currentIndex, idx+1, currMax
+	return {"sum": totalMax, "subarray": input_array[start:end]}"""
+  	return {"sum": 123, "subarray": [1,2,3,4]}
 
 
 #write results of tests to file
@@ -111,7 +103,7 @@ with open('MSS_Results.txt', 'w') as p1_results:
 		result = divide_and_conquer(a, 0, len(a))
 		p1_results.write("Input: " + str(a) + "\n")
 		p1_results.write("Sum: " + str(result["sum"]) + "\n")
-		p1_results.write("Subarray: " + str(result["subarray"]) + "\n\n")
+		p1_results.write("Subarray: " + str(a[result["low_index"]:result["high_index"] + 1]) + "\n\n")
 	p1_results.write("Linear Results:\n")
 	for a in input_arrays:
 		result = linear(a)
@@ -156,13 +148,13 @@ for n in num_elements:
 
 with open("runtime_results.txt", 'w') as rt_results:
 	rt_results.write("Enum Times: \n")
-	rt_results.write(enum_times)
+	rt_results.write(str(enum_times))
 	rt_results.write("\nBetter Enum Times:\n")
-	rt_results.write(better_enum_times)
+	rt_results.write(str(better_enum_times))
 	rt_results.write("\nDivide and conquer times: \n")
-	rt_results.write(d_and_c_times)
+	rt_results.write(str(d_and_c_times))
 	rt_results.write("\nLinear Times: \n")
-	rt_results.write(linear_times)
+	rt_results.write(str(linear_times))
 
 	print enum_times
 	print better_enum_times
