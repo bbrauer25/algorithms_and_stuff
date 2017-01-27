@@ -17,9 +17,18 @@ print input_arrays
 
 #our four functions
 
-def enumerate(input_array):
-	#code here!
-	return {"sum": 123, "subarray": [1,2,3,4]}
+def simple_enumerate(input_array):
+	max_sum = 0
+	start_index = 0
+	stop_index = 0
+	for i, val in enumerate(input_array):
+		for j, val in enumerate(input_array):
+			if j >= i:
+				if sum(input_array[i:j + 1]) > max_sum:
+					max_sum = sum(input_array[i:j + 1])
+					start_index = i
+					stop_index = j
+	return {"sum": max_sum, "subarray": input_array[start_index:stop_index + 1]}
 
 def better_enumerate(input_array):
 	#code here!
@@ -88,7 +97,7 @@ def linear(input_array):
 with open('MSS_Results.txt', 'w') as p1_results:
 	p1_results.write("Enumerate Results:\n")
 	for a in input_arrays:
-		result = enumerate(a)
+		result = simple_enumerate(a)
 		p1_results.write("Input: " + str(a) + "\n")
 		p1_results.write("Sum: " + str(result["sum"]) + "\n")
 		p1_results.write("Subarray: " + str(result["subarray"]) + "\n\n")
@@ -127,7 +136,7 @@ for n in num_elements:
 	print a
 
 	start_time = time.time()
-	result = enumerate(a)
+	result = simple_enumerate(a)
 	time_elapsed = time.time() - start_time
 	enum_times.append(time_elapsed)
 
