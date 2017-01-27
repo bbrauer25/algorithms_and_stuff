@@ -80,8 +80,16 @@ def divide_and_conquer(input_array, low, high):
 		return {"sum": mid_sum, "low_index": low_index, "high_index": high_index}
 
 def linear(input_array):
-	#code here!
-	return {"sum": 123, "subarray": [1,2,3,4]}
+  totalMax = currMax =currentIndex = start = end =  0
+  for idx, i in enumerate(input_array):
+      if currMax+i > 0:
+          currMax += i
+      else: 
+          currMax, currentIndex = 0, idx+1
+
+      if currMax > totalMax:
+          start, end, totalMax = currentIndex, idx+1, currMax
+  return {"sum": totalMax, "subarray": input_array[start:end]}
 
 
 #write results of tests to file
