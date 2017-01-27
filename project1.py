@@ -24,9 +24,60 @@ def better_enumerate(input_array):
 	#code here!
 	return {"sum": 123, "subarray": [1,2,3,4]}
 
-def divide_and_conquer(input_array):
-	#code here!
-	return {"sum": 123, "subarray": [1,2,3,4]}
+def divide_and_conquer(input_array, low, high):
+	#low and high track the current actual indices of the original array
+
+	print(input_array)
+
+	if len(input_array) == 1:
+		return {"sum": input_array[0], "low_index": low, "high_index": high}
+
+	mid_point = int(len(input_array)/2)
+
+	left_result = divide_and_conquer(input_array[0:mid_point], low, mid_point - 1)
+	right_result = divide_and_conquer(input_array[mid_point:len(input_array)], mid_point, high)
+	max_left = left_result["sum"]
+	max_right = right_result["sum"]
+
+	n = mid_point - 1
+	sum = 0
+	right_sum = 0
+	left_sum = 0 #lowest possible random 
+	low_index = low
+	high_index = high
+
+	while (n >= 0):
+		sum = sum + input_array[n]
+		if sum > left_sum:
+			left_sum = sum
+			low_index = low + n
+		n = n - 1
+
+	sum = 0
+	n = mid_point
+	while (n < len(input_array)):
+		sum = sum + input_array[n]
+		if sum > right_sum:
+			right_sum = sum
+			high_index = low + n
+		n = n + 1
+
+	mid_sum = left_sum + right_sum
+
+
+	print("left_sum: " + str(max_left))
+	print("right_sum: " + str(max_right))
+	print("mid_sum: " + str(mid_sum))
+	print("low_index: " + str(low_index))
+	print("high_index: " + str(high_index))
+	#TO DO - figure out how to print proper values if left or right side wins
+
+	if (max(max_left, max_right, mid_sum) == max_left):
+		return {"sum": max_left, "low_index": left_result["low_index"], "high_index": left_result["high_index"]}
+	elif (max(max_left, max_right, mid_sum) == max_right):
+		return {"sum": max_right, "low_index": right_result["low_index"], "high_index": right_result["high_index"]}
+	else:
+		return {"sum": mid_sum, "low_index": low_index, "high_index": high_index}
 
 def linear(input_array):
 	#code here!
@@ -49,7 +100,7 @@ with open('MSS_Results.txt', 'w') as p1_results:
 		p1_results.write("Subarray: " + str(result["subarray"]) + "\n\n")
 	p1_results.write("Divide and Conquer Results:\n")
 	for a in input_arrays:
-		result = divide_and_conquer(a)
+		result = divide_and_conquer(a, 0, len(a))
 		p1_results.write("Input: " + str(a) + "\n")
 		p1_results.write("Sum: " + str(result["sum"]) + "\n")
 		p1_results.write("Subarray: " + str(result["subarray"]) + "\n\n")
@@ -86,7 +137,7 @@ for n in num_elements:
 	better_enum_times.append(time_elapsed)
 
 	start_time = time.time()
-	result = divide_and_conquer(a)
+	result = divide_and_conquer(a, 0, len(a))
 	time_elapsed = time.time() - start_time
 	d_and_c_times.append(time_elapsed)
 
