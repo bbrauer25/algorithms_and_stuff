@@ -135,7 +135,9 @@ with open('MSS_Results.txt', 'w') as p1_results:
 #Time testing:
 #array to set number of elements in the 10 input arrays, and to store timing results
 #we may need to change the number of elements here to get reasonable results
-num_elements = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+#num_elements = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+#num_elements = [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+num_elements = [200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000]
 enum_times = []
 better_enum_times = []
 d_and_c_times = []
