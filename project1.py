@@ -31,8 +31,20 @@ def simple_enumerate(input_array):
 	return {"sum": max_sum, "subarray": input_array[start_index:stop_index + 1]}
 
 def better_enumerate(input_array):
-	#code here!
-	return {"sum": 123, "subarray": [1,2,3,4]}
+	max_sum = 0
+	start_index = 0
+	stop_index = 0
+	temp_sum = 0
+	for i, val in enumerate(input_array):
+		for j, val in enumerate(input_array):
+			if j >= i:
+				temp_sum = temp_sum + input_array[j]
+				if temp_sum > max_sum:
+					max_sum = temp_sum
+					start_index = i
+					stop_index = j
+		temp_sum = 0
+	return {"sum": max_sum, "subarray": input_array[start_index:stop_index + 1]}
 
 def divide_and_conquer(input_array, low, high):
 	#low and high track the current actual indices of the original array
@@ -80,7 +92,7 @@ def divide_and_conquer(input_array, low, high):
 		return {"sum": mid_sum, "low_index": low_index, "high_index": high_index}
 
 def linear(input_array):
-	"""totalMax = currMax =currentIndex = start = end =  0
+	totalMax = currMax =currentIndex = start = end =  0
 	for idx, i in enumerate(input_array):
 	  if currMax+i > 0:
 	      currMax += i
@@ -89,8 +101,8 @@ def linear(input_array):
 
 	  if currMax > totalMax:
 	      start, end, totalMax = currentIndex, idx+1, currMax
-	return {"sum": totalMax, "subarray": input_array[start:end]}"""
-  	return {"sum": 123, "subarray": [1,2,3,4]}
+	return {"sum": totalMax, "subarray": input_array[start:end]}
+  	#return {"sum": 123, "subarray": [1,2,3,4]}
 
 
 #write results of tests to file
