@@ -1,14 +1,13 @@
 import math
 from random import randint
 import time
-import time
 
 #run by "python project1.py" on command line
 
 input_arrays = []
 #switch to test problem set if desired
-with open('MSS_TestProblems.txt') as inputs:
-#with open('MSS_Problems.txt') as inputs:
+#with open('MSS_TestProblems.txt') as inputs:
+with open('MSS_Problems.txt') as inputs:
 	for line in inputs:
 		sub_array = line.split()
 		input_arrays.append(map(int, sub_array))
@@ -135,39 +134,95 @@ with open('MSS_Results.txt', 'w') as p1_results:
 #Time testing:
 #array to set number of elements in the 10 input arrays, and to store timing results
 #we may need to change the number of elements here to get reasonable results
-#num_elements = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-#num_elements = [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
 num_elements = [200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000]
+better_enum_elements = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
+d_and_c_elements = [50000, 100000, 150000, 200000, 250000, 300000, 350000, 400000, 450000, 500000]
+linear_elements = [1000000, 2000000, 3000000, 4000000, 5000000, 6000000, 7000000, 8000000, 9000000, 10000000]
+
 enum_times = []
 better_enum_times = []
 d_and_c_times = []
 linear_times = []
 
+#code block to run with consistent array sizes for all functions
+"""
 for n in num_elements:
 	a = []
 	for _ in range(n):
 		a.append(randint(-100, 100))
-	print a
+	#print a
 
 	start_time = time.time()
 	result = simple_enumerate(a)
 	time_elapsed = time.time() - start_time
+	print("Enumerate: " + str(time_elapsed))
 	enum_times.append(time_elapsed)
 
 	start_time = time.time()
 	result = better_enumerate(a)
 	time_elapsed = time.time() - start_time
+	print("Better Enumerate: " + str(time_elapsed))
 	better_enum_times.append(time_elapsed)
 
 	start_time = time.time()
 	result = divide_and_conquer(a, 0, len(a))
 	time_elapsed = time.time() - start_time
+	print("Divide and conquer: " + str(time_elapsed))
 	d_and_c_times.append(time_elapsed)
 
 	start_time = time.time()
 	results = linear(a)
 	time_elapsed = time.time() - start_time
+	print("Linear: " + str(time_elapsed))
 	linear_times.append(time_elapsed)
+"""
+
+#code block to run with array sizes matched to performance per algorithm
+
+for n in num_elements:
+	a = []
+	for _ in range(n):
+		a.append(randint(-100, 100))
+
+	start_time = time.time()
+	result = simple_enumerate(a)
+	time_elapsed = time.time() - start_time
+	print("Enumerate: " + str(time_elapsed))
+	enum_times.append(time_elapsed)
+
+for n in better_enum_elements:
+	a = []
+	for _ in range(n):
+		a.append(randint(-100, 100))
+
+	start_time = time.time()
+	result = better_enumerate(a)
+	time_elapsed = time.time() - start_time
+	print("Better Enumerate: " + str(time_elapsed))
+	better_enum_times.append(time_elapsed)
+
+for n in d_and_c_elements:
+	a = []
+	for _ in range(n):
+		a.append(randint(-100, 100))
+
+	start_time = time.time()
+	result = divide_and_conquer(a, 0, len(a))
+	time_elapsed = time.time() - start_time
+	print("Divide and Conquer: " + str(time_elapsed))
+	d_and_c_times.append(time_elapsed)
+
+for n in linear_elements:
+	a = []
+	for _ in range(n):
+		a.append(randint(-100, 100))
+
+	start_time = time.time()
+	result = linear(a)
+	time_elapsed = time.time() - start_time
+	print("Linear: " + str(time_elapsed))
+	linear_times.append(time_elapsed)
+
 
 with open("runtime_results.txt", 'w') as rt_results:
 	rt_results.write("Enum Times: \n")
