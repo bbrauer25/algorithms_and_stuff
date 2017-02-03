@@ -4,6 +4,22 @@ import time
 
 #run by "python project1.py" on command line
 
+def printUsage():
+    print "Usage: " + sys.argv[0] + '-f <filename with demoninations and change amounts>'
+
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], "f", [])
+except getopt.GetoptError:
+    printUsage()
+    sys.exit(2)
+for opt, arg in opts:
+    if opt == '-h':
+        printUsage()
+        sys.exit()
+    elif opt in ("-f"):
+        filename = arg
+
 input_arrays = []
 #switch to test problem set if desired
 #with open('MSS_TestProblems.txt') as inputs:
