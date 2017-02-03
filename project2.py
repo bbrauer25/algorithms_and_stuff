@@ -17,7 +17,6 @@ except getopt.GetoptError:
 	printUsage()
 	sys.exit(2)
 for opt, arg in opts:
-	print(opt)
 	if opt == '-h':
 		printUsage()
 		sys.exit()
@@ -42,14 +41,10 @@ with open(filename) as inputs:
 		else:
 			change_values.append(int(line))
 
-print denom_arrays
-print change_values
-
 
 #our three functions
 
 def changeslow(denom_array, change_value):
-	time.sleep(1)
 	return [1,1,1,1]
 
 def changegreedy(denom_array, change_value):
@@ -57,7 +52,6 @@ def changegreedy(denom_array, change_value):
 
 def changedp(denom_array, change_value):
 	return [1,1,1,1]
-
 
 
 #write results of tests to file
@@ -72,7 +66,7 @@ with open(write_file, 'w') as p2_results:
 		start_time = time.time()
 		result = changeslow(d, change_values[idx])
 		time_elapsed = time.time() - start_time
-		runtime_results["changeslow"].append({"denom_array": d, "change_value": change_values[idx], "coins": result, "runtime": time_elapsed, })
+		runtime_results["changeslow"].append({"change_value": change_values[idx], "num_coins": sum(result), "runtime": time_elapsed, })
 		#write to file per assignment format requirements
 		for i in d:
 			p2_results.write(str(i) + ' ')
@@ -88,7 +82,7 @@ with open(write_file, 'w') as p2_results:
 		start_time = time.time()
 		result = changegreedy(d, change_values[idx])
 		time_elapsed = time.time() - start_time
-		runtime_results["changegreedy"].append({"denom_array": d, "change_value": change_values[idx], "coins": result, "runtime": time_elapsed, })
+		runtime_results["changegreedy"].append({"change_value": change_values[idx], "num_coins": sum(result), "runtime": time_elapsed, })
 		#write to file per assignment format requirements
 		for i in d:
 			p2_results.write(str(i) + ' ')
@@ -104,7 +98,7 @@ with open(write_file, 'w') as p2_results:
 		start_time = time.time()
 		result = changedp(d, change_values[idx])
 		time_elapsed = time.time() - start_time
-		runtime_results["changedp"].append({"denom_array": d, "change_value": change_values[idx], "coins": result, "runtime": time_elapsed, })
+		runtime_results["changedp"].append({"change_value": change_values[idx], "num_coins": sum(result), "runtime": time_elapsed, })
 		#write to file per assignment format requirements
 		for i in d:
 			p2_results.write(str(i) + ' ')
@@ -115,11 +109,23 @@ with open(write_file, 'w') as p2_results:
 		p2_results.write(str(sum(result)) + '\n\n')
 
 
-#for now just print runtimes dictionary - we could use this stuff for analyses on writeup
-#probably write some stuff to a csv file or something here eventually for analyses (number of coins, A, runtime)
+#write runtimes, change value (A) and number of coins to csv file for analyses
 print runtime_results
+with open('changegreedy_results.csv', 'w') as rt_csv:
+	fieldnames = ['change_value', 'num_coins', 'runtime']
+	writer = csv.DictWriter(rt_csv, fieldnames=fieldnames)
 
+	writer.writeheader()
+	for r in runtime_results["changegreedy"]:
+		writer.writerow(r)
 
+with open('changedp_results.csv', 'w') as rt_csv:
+	fieldnames = ['change_value', 'num_coins', 'runtime']
+	writer = csv.DictWriter(rt_csv, fieldnames=fieldnames)
+
+	writer.writeheader()
+	for r in runtime_results["changedp"]:
+		writer.writerow(r)
 
 
 
