@@ -51,7 +51,37 @@ def changegreedy(denom_array, change_value):
 	return [1,1,1,1]
 
 def changedp(denom_array, change_value):
-	return [1,1,1,1]
+	coin_values = [0] * (change_value + 1)
+	min_counts = [0] * (change_value + 1)
+	for c in range(change_value + 1):
+		num_coins = c
+		coin_value = 1
+		temp_coins = []
+		for d in denom_array:
+			if d <= c:
+				temp_coins.append(d)
+		for t in temp_coins:
+			if min_counts[c - t] + 1 < num_coins:
+				num_coins = min_counts[c - t] + 1
+				coin_value = t
+		min_counts[c] = num_coins
+		coin_values[c] = coin_value
+	print coin_values
+	#figure out which coins make the minimum change
+	result = [0]*len(denom_array)
+	change_left = change_value
+	while change_left > 0:
+		coin_to_add = coin_values[change_left]
+		for idx, d in enumerate(denom_array):
+			if d == coin_to_add:
+				result[idx] = result[idx] + 1
+				break
+		change_left = change_left - coin_to_add
+
+	print denom_array
+	print result
+	return result
+
 
 
 #write results of tests to file
