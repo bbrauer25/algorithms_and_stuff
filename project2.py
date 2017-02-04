@@ -82,21 +82,14 @@ def changedp(denom_array, change_value):
 	print result
 	return result
 
-
-
 #write results of tests to file
 write_file = filename[:-4] + "change.txt"
-runtime_results = {"changeslow": [], "changegreedy": [], "changedp": []}
 
 with open(write_file, 'w') as p2_results:
 
 	p2_results.write("Algorithm changeslow:\n")
 	for idx, d in enumerate(denom_arrays):
-		#track runtime and write all results to dictionary
-		start_time = time.time()
 		result = changeslow(d, change_values[idx])
-		time_elapsed = time.time() - start_time
-		runtime_results["changeslow"].append({"change_value": change_values[idx], "num_coins": sum(result), "runtime": time_elapsed, })
 		#write to file per assignment format requirements
 		for i in d:
 			p2_results.write(str(i) + ' ')
@@ -108,11 +101,7 @@ with open(write_file, 'w') as p2_results:
 
 	p2_results.write("Algorithm changegreedy:\n")
 	for idx, d in enumerate(denom_arrays):
-		#track runtime and write all results to dictionary
-		start_time = time.time()
 		result = changegreedy(d, change_values[idx])
-		time_elapsed = time.time() - start_time
-		runtime_results["changegreedy"].append({"change_value": change_values[idx], "num_coins": sum(result), "runtime": time_elapsed, })
 		#write to file per assignment format requirements
 		for i in d:
 			p2_results.write(str(i) + ' ')
@@ -124,11 +113,7 @@ with open(write_file, 'w') as p2_results:
 
 	p2_results.write("Algorithm changedb\n")
 	for idx, d in enumerate(denom_arrays):
-		#track runtime and write all results to dictionary
-		start_time = time.time()
 		result = changedp(d, change_values[idx])
-		time_elapsed = time.time() - start_time
-		runtime_results["changedp"].append({"change_value": change_values[idx], "num_coins": sum(result), "runtime": time_elapsed, })
 		#write to file per assignment format requirements
 		for i in d:
 			p2_results.write(str(i) + ' ')
@@ -139,23 +124,75 @@ with open(write_file, 'w') as p2_results:
 		p2_results.write(str(sum(result)) + '\n\n')
 
 
+#construct V denominations array, and A array of different change values
+#for project exercises 3-5
+
+p3v = [1, 5, 10, 25, 50]
+p4v1 = [1, 2, 6, 12, 24, 48, 60]
+p4v2 = [1, 6, 13, 37, 150]
+p5v = [1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]
+
+p3a = []
+a = 2010
+while a <= 2200:
+	p3a.append(a)
+	a = a + 5
+
+p4a = []
+a = 2000
+while a <= 2200:
+	p4a.append(a)
+	a = a + 1
+
+p5a = p4a
+
+#run 3 algorithms and write results to files for each algorithm
+results = {"changeslow": [], "changegreedy": [], "changedp": []}
+
+#problem 3 run for each value of a for each algorithm
+for a in p3a:
+	start_time = time.time()
+	result = changedp(p3v, a)
+	time_elapsed = time.time() - start_time
+	results["changedp"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p3v})
+	start_time = time.time()
+	result = changegreedy(p3v, a)
+	time_elapsed = time.time() - start_time
+	results["changegreedy"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p3v})
+	start_time = time.time()
+	result = changeslow(p3v, a)
+	time_elapsed = time.time() - start_time
+	results["changeslow"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p3v})
+
+#TO DO: problems 4a, 4b, 5 
+
 #write runtimes, change value (A) and number of coins to csv file for analyses
-print runtime_results
-with open('changegreedy_results.csv', 'w') as rt_csv:
-	fieldnames = ['change_value', 'num_coins', 'runtime']
-	writer = csv.DictWriter(rt_csv, fieldnames=fieldnames)
-
-	writer.writeheader()
-	for r in runtime_results["changegreedy"]:
-		writer.writerow(r)
-
 with open('changedp_results.csv', 'w') as rt_csv:
-	fieldnames = ['change_value', 'num_coins', 'runtime']
+	fieldnames = ['change_value', 'num_coins', 'runtime', 'coins', 'denominations']
 	writer = csv.DictWriter(rt_csv, fieldnames=fieldnames)
 
 	writer.writeheader()
-	for r in runtime_results["changedp"]:
+	for r in results["changedp"]:
 		writer.writerow(r)
+
+with open('changegreedy_results.csv', 'w') as rt_csv:
+	fieldnames = ['change_value', 'num_coins', 'runtime', 'coins', 'denominations']
+	writer = csv.DictWriter(rt_csv, fieldnames=fieldnames)
+
+	writer.writeheader()
+	for r in results["changegreedy"]:
+		writer.writerow(r)
+
+with open('changeslow_results.csv', 'w') as rt_csv:
+	fieldnames = ['change_value', 'num_coins', 'runtime', 'coins', 'denominations']
+	writer = csv.DictWriter(rt_csv, fieldnames=fieldnames)
+
+	writer.writeheader()
+	for r in results["changeslow"]:
+		writer.writerow(r)
+
+
+
 
 
 
