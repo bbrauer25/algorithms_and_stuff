@@ -1,4 +1,5 @@
-"""def changeslow(amounts, goal, coins = [], highest = 0, sum = 0):
+"""
+def changeslow(amounts, goal, coins = [], highest = 0, sum = 0):
     # Base case
     if sum == goal:
         result = [] 
@@ -20,7 +21,8 @@
             copy = coins[:]
             copy.append(value)
             if sum + value <= goal:
-                changeslow(amounts, goal, copy, value, sum + value)"""
+                changeslow(amounts, goal, copy, value, sum + value)
+"""
 
 def changeslow(amounts, goal):
     result = [0]*len(amounts)
@@ -50,15 +52,3 @@ amounts = [1, 5, 10, 25, 50]
 
 print(changeslow(amounts, 51))
 
-"""def recMC(coinValueList,change):
-   minCoins = change
-   if change in coinValueList:
-     return 1
-   else:
-      for i in [c for c in coinValueList if c <= change]:
-         numCoins = 1 + recMC(coinValueList,change-i)
-         if numCoins < minCoins:
-            minCoins = numCoins
-   return minCoins
-
-print(recMC([1,5,10,25],63))"""
