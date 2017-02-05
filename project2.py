@@ -66,7 +66,6 @@ def changedp(denom_array, change_value):
 				coin_value = t
 		min_counts[c] = num_coins
 		coin_values[c] = coin_value
-	print coin_values
 	#figure out which coins make the minimum change
 	result = [0]*len(denom_array)
 	change_left = change_value
@@ -77,9 +76,6 @@ def changedp(denom_array, change_value):
 				result[idx] = result[idx] + 1
 				break
 		change_left = change_left - coin_to_add
-
-	print denom_array
-	print result
 	return result
 
 #write results of tests to file
