@@ -1,3 +1,4 @@
+import time
 """
 def changeslow(amounts, goal, coins = [], highest = 0, sum = 0):
     # Base case
@@ -48,7 +49,9 @@ def changeslow(amounts, goal):
         print result
         return result
 
-amounts = [1, 5, 10, 25, 50]
-
-print(changeslow(amounts, 51))
+#amounts = [1, 5, 10, 25, 50]
+amounts = [1, 2, 4, 8, 16]
+start_time = time.time()
+print(changeslow(amounts, 31))
+print (time.time() - start_time)
 
