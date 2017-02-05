@@ -44,6 +44,30 @@ with open(filename) as inputs:
 
 #our three functions
 
+def changeslow(amounts, goal):
+    result = [0]*len(amounts)
+    test_result = [0]*len(amounts)
+    result[0] = goal # set denomination 1 to goal, maximum coins possible
+    # Base case 
+    if goal in amounts:
+        for idx, a in enumerate(amounts):
+            if a == goal:
+                result[idx] = 1
+                return result
+    else:
+    #Recursive case
+        possible_coins = []
+        for idx, value in enumerate(amounts):
+            if value <= goal:
+                test_result = changeslow(amounts, goal - value)
+                test_result[idx] = test_result[idx] + 1
+                if sum(test_result) < sum(result):
+                    result = test_result
+        print goal
+        print result
+        return result
+
+"""
 def changeslow(denom_array, change_value):
     result1, result2 = helper_changeslow(change_value, denom_array)
     coins = [0] * len(denom_array)  
@@ -82,6 +106,7 @@ def helper_changeslow(amount, coins):
             numcoins += sol[0]
             results = { x: results.get(x, 0) + sol[1].get(x, 0) for x in set(results) | set(sol[1]) }
     return (numcoins, results)
+"""
 
 def changegreedy(denom_array, change_value):
 	return [1,1,1,1]
@@ -122,6 +147,9 @@ with open(write_file, 'w') as p2_results:
 	p2_results.write("Algorithm changeslow:\n")
 	for idx, d in enumerate(denom_arrays):
 		result = changeslow(d, change_values[idx])
+		print d
+		print change_values[idx]
+		print result
 		#write to file per assignment format requirements
 		for i in d:
 			p2_results.write(str(i) + ' ')
@@ -134,6 +162,9 @@ with open(write_file, 'w') as p2_results:
 	p2_results.write("Algorithm changegreedy:\n")
 	for idx, d in enumerate(denom_arrays):
 		result = changegreedy(d, change_values[idx])
+		print d
+		print change_values[idx]
+		print result
 		#write to file per assignment format requirements
 		for i in d:
 			p2_results.write(str(i) + ' ')
@@ -146,6 +177,9 @@ with open(write_file, 'w') as p2_results:
 	p2_results.write("Algorithm changedb\n")
 	for idx, d in enumerate(denom_arrays):
 		result = changedp(d, change_values[idx])
+		print d
+		print change_values[idx]
+		print result
 		#write to file per assignment format requirements
 		for i in d:
 			p2_results.write(str(i) + ' ')
@@ -191,11 +225,11 @@ for a in p3a:
 	result = changegreedy(p3v, a)
 	time_elapsed = time.time() - start_time
 	results["changegreedy"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p3v})
-	start_time = time.time()
+	"""start_time = time.time()
 	result = changeslow(p3v, a)
 	time_elapsed = time.time() - start_time
 	results["changeslow"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p3v})
-
+	"""
 #TO DO: problems 4a, 4b, 5 
 
 #write runtimes, change value (A) and number of coins to csv file for analyses
