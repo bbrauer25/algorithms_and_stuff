@@ -6,7 +6,7 @@ import csv
 
 #get input filename from command line input
 
-filename = ""
+filename = sys.argv[1] + ".txt"
 
 def printUsage():
 	print "Usage: " + sys.argv[0] + ' -f <filename with demoninations and change amounts>'
@@ -45,7 +45,43 @@ with open(filename) as inputs:
 #our three functions
 
 def changeslow(denom_array, change_value):
-	return [1,1,1,1]
+    result1, result2 = helper_changeslow(change_value, denom_array)
+    coins = [0] * len(denom_array)  
+    for i in range(0, len(denom_array)):   
+        if result2.has_key(denom_array[i]):       
+            coins[i] = result2.get(denom_array[i])   
+    return coins
+
+def helper_changeslow(amount, coins):
+    numcoins = 0
+    results = {}
+    if len(coins) == 1:
+        numcoins =  amount / coins[0]
+        results[coins[0]] = numcoins
+    elif amount == 1:
+        numcoins = 1
+        results[coins[0]] = 1
+    elif amount == 0: 
+        numcoins = 0
+    else:
+        if (amount - coins[-1]>= 0):
+            sol1 = helper_changeslow(amount-coins[-1], coins)
+            sol2 = helper_changeslow(amount, coins[:-1])
+            numcoins += min(1+ sol1[0], sol2[0])
+            if 1+ sol1[0]<sol2[0]:
+                if coins[-1] in results:
+                    results[coins[-1]] += 1
+                else: 
+                    results[coins[-1]] = 1
+                results = { x: results.get(x, 0) + sol1[1].get(x, 0) for x in set(results) | set(sol1[1]) }
+            else:
+                results = results + min[1] 
+                results = { x: results.get(x, 0) + sol2[1].get(x, 0) for x in set(results) | set(sol2[1]) }
+        else:
+            sol = helper_changeslow(amount, coins[:-1])
+            numcoins += sol[0]
+            results = { x: results.get(x, 0) + sol[1].get(x, 0) for x in set(results) | set(sol[1]) }
+    return (numcoins, results)
 
 def changegreedy(denom_array, change_value):
 	return [1,1,1,1]
