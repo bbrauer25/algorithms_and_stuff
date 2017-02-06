@@ -43,31 +43,6 @@ with open(filename) as inputs:
 
 
 #our three functions
-
-def changeslow(amounts, goal):
-    result = [0]*len(amounts)
-    test_result = [0]*len(amounts)
-    result[0] = goal # set denomination 1 to goal, maximum coins possible
-    # Base case 
-    if goal in amounts:
-        for idx, a in enumerate(amounts):
-            if a == goal:
-                result[idx] = 1
-                return result
-    else:
-    #Recursive case
-        possible_coins = []
-        for idx, value in enumerate(amounts):
-            if value <= goal:
-                test_result = changeslow(amounts, goal - value)
-                test_result[idx] = test_result[idx] + 1
-                if sum(test_result) < sum(result):
-                    result = test_result
-        print goal
-        print result
-        return result
-
-"""
 def changeslow(denom_array, change_value):
     result1, result2 = helper_changeslow(change_value, denom_array)
     coins = [0] * len(denom_array)  
@@ -79,6 +54,7 @@ def changeslow(denom_array, change_value):
 def helper_changeslow(amount, coins):
     numcoins = 0
     results = {}
+    #base cases
     if len(coins) == 1:
         numcoins =  amount / coins[0]
         results[coins[0]] = numcoins
@@ -87,26 +63,26 @@ def helper_changeslow(amount, coins):
         results[coins[0]] = 1
     elif amount == 0: 
         numcoins = 0
+    #recursive case
     else:
         if (amount - coins[-1]>= 0):
-            sol1 = helper_changeslow(amount-coins[-1], coins)
-            sol2 = helper_changeslow(amount, coins[:-1])
-            numcoins += min(1+ sol1[0], sol2[0])
-            if 1+ sol1[0]<sol2[0]:
+            solutionution1 = helper_changeslow(amount-coins[-1], coins)
+            solutionution2 = helper_changeslow(amount, coins[:-1])
+            numcoins += min(1+ solutionution1[0], solutionution2[0])
+            #figure out the coins dictionary for return value
+            if 1+ solutionution1[0]<solutionution2[0]:
                 if coins[-1] in results:
                     results[coins[-1]] += 1
                 else: 
                     results[coins[-1]] = 1
-                results = { x: results.get(x, 0) + sol1[1].get(x, 0) for x in set(results) | set(sol1[1]) }
+                results = { a: results.get(a, 0) + solutionution1[1].get(a, 0) for a in set(results) | set(solutionution1[1]) }
             else:
-                results = results + min[1] 
-                results = { x: results.get(x, 0) + sol2[1].get(x, 0) for x in set(results) | set(sol2[1]) }
+                results = { a: results.get(a, 0) + solutionution2[1].get(a, 0) for a in set(results) | set(solutionution2[1]) }
         else:
-            sol = helper_changeslow(amount, coins[:-1])
-            numcoins += sol[0]
-            results = { x: results.get(x, 0) + sol[1].get(x, 0) for x in set(results) | set(sol[1]) }
+            solution = helper_changeslow(amount, coins[:-1])
+            numcoins += solution[0]
+            results = { a: results.get(a, 0) + solution[1].get(a, 0) for a in set(results) | set(solution[1]) }
     return (numcoins, results)
-"""
 
 def changegreedy(denom_array, change_value):
 	outArr = []
@@ -205,19 +181,20 @@ p4v1 = [1, 2, 6, 12, 24, 48, 60]
 p4v2 = [1, 6, 13, 37, 150]
 p5v = [1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]
 
+#changeslow_a = [227, 347, 461, 599, 727]
+changeslow_a = [109, 127, 139, 151, 163]
+
 p3a = []
 a = 2010
 while a <= 2200:
 	p3a.append(a)
 	a = a + 5
 
-p4a = []
+p4and5a = []
 a = 2000
 while a <= 2200:
-	p4a.append(a)
+	p4and5a.append(a)
 	a = a + 1
-
-p5a = p4a
 
 #run 3 algorithms and write results to files for each algorithm
 results = {"changeslow": [], "changegreedy": [], "changedp": []}
@@ -232,11 +209,58 @@ for a in p3a:
 	result = changegreedy(p3v, a)
 	time_elapsed = time.time() - start_time
 	results["changegreedy"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p3v})
-	"""start_time = time.time()
+
+for a in p4and5a:
+	start_time = time.time()
+	result = changedp(p4v1, a)
+	time_elapsed = time.time() - start_time
+	results["changedp"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p4v1})
+	start_time = time.time()
+	result = changegreedy(p4v1, a)
+	time_elapsed = time.time() - start_time
+	results["changegreedy"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p4v1})
+	start_time = time.time()
+	result = changedp(p4v2, a)
+	time_elapsed = time.time() - start_time
+	results["changedp"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p4v2})
+	start_time = time.time()
+	result = changegreedy(p4v2, a)
+	time_elapsed = time.time() - start_time
+	results["changegreedy"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p4v2})
+	start_time = time.time()
+	result = changedp(p5v, a)
+	time_elapsed = time.time() - start_time
+	results["changedp"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p5v})
+	start_time = time.time()
+	result = changegreedy(p5v, a)
+	time_elapsed = time.time() - start_time
+	results["changegreedy"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p5v})
+
+
+#run change slow
+for a in changeslow_a:
+	start_time = time.time()
 	result = changeslow(p3v, a)
 	time_elapsed = time.time() - start_time
+	print result
 	results["changeslow"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p3v})
-	"""
+	start_time = time.time()
+	result = changeslow(p4v1, a)
+	time_elapsed = time.time() - start_time
+	print result
+	results["changeslow"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p4v1})
+	start_time = time.time()
+	result = changeslow(p4v2, a)
+	time_elapsed = time.time() - start_time
+	print result
+	results["changeslow"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p4v2})
+	start_time = time.time()
+	result = changeslow(p5v, a)
+	time_elapsed = time.time() - start_time
+	print result
+	results["changeslow"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p5v})
+
+
 #TO DO: problems 4a, 4b, 5 
 
 #write runtimes, change value (A) and number of coins to csv file for analyses
