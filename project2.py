@@ -87,11 +87,9 @@ def helper_changeslow(amount, coins):
 def changegreedy(denom_array, change_value):
 	outArr = []
 	for i in range(len(denom_array)-1,-1,-1):
-		numOfCoinsAtDenom = change_value/(denom_array[i]*.01)
-		rem = change_value%(denom_array[i]*.01)
-		for x in range(0,int(numOfCoinsAtDenom)):
+		while(change_value >= (denom_array[i]*.01)):
 			outArr.append(denom_array[i])
-		change_value = rem
+			change_value -= (denom_array[i]*.01)
 	return outArr
 
 def changedp(denom_array, change_value):
