@@ -32,7 +32,7 @@ def changedp(denom_array, change_value):
 	print result
 	print min_counts
 	print min_counts[change_value]
-	return min_counts[change_value]
+	return result
 
 def changedpcompact(denom_array, change_value):
 	min_coins = [0] * (change_value + 1)

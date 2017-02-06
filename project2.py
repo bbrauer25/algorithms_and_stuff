@@ -43,6 +43,13 @@ with open(filename) as inputs:
 
 
 #our three functions
+
+# For finding the min sum I used the pseudo code provided in the project description. For help figuring out how to keep 
+#    track of the actual coins, I studied and modified two examples found online: 
+#    http://data.faridani.me/top-down-recursion-dynamic-programming-and-memoization-in-python/ 
+#    & https://www.dotnetperls.com/recursion-python 
+# I also worked with a friend to figure out how dictionaries work in python and returning multiple values since
+#    the code also has to return an array of actual coins
 def changeslow(denom_array, change_value):
     result1, result2 = helper_changeslow(change_value, denom_array)
     coins = [0] * len(denom_array)  
@@ -260,8 +267,6 @@ for a in changeslow_a:
 	print result
 	results["changeslow"].append({"change_value": a, "num_coins": sum(result), "runtime": time_elapsed, "coins": result, "denominations": p5v})
 
-
-#TO DO: problems 4a, 4b, 5 
 
 #write runtimes, change value (A) and number of coins to csv file for analyses
 with open('changedp_results.csv', 'w') as rt_csv:
