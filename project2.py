@@ -94,7 +94,7 @@ def helper_changeslow(amount, coins):
 def changegreedy(denom_array, change_value):
 	outArr = [0] * len(denom_array)
 	for i in range(len(denom_array)-1,-1,-1):
-		while(change_value > denom_array[i]):
+		while(change_value >= denom_array[i]):
 			outArr[i] += 1
 			change_value -= denom_array[i]
 	return outArr
@@ -198,9 +198,9 @@ while a <= 2200:
 
 p4and5a = []
 a = 2000
-while a <= 2500:
+while a <= 20000:
 	p4and5a.append(a)
-	a = a + 1
+	a = a + 43
 
 #run 3 algorithms and write results to files for each algorithm
 results = {"changeslow": [], "changegreedy": [], "changedp": []}
