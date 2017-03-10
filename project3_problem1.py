@@ -70,7 +70,7 @@ prob.solve()
 print("Part A Status: ", LpStatus[prob.status])
 
 for v in prob.variables():
-	print(v.name, " = ", v.varValue)
+	print(v.name + ": " + str(v.varValue))
 
 print("Total shipping cost: ", value(prob.objective))
 
@@ -212,7 +212,7 @@ prob.solve()
 print("Status: ", LpStatus[prob.status])
 
 for v in prob.variables():
-	print(v.name, " = ", v.varValue)
+	print(v.name + ": " + str(v.varValue))
 
 print("Total shipping cost: ", value(prob.objective))
 

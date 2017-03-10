@@ -2,10 +2,6 @@ from pulp import *
 
 prob = LpProblem("bicycle", LpMinimize)
 
-#Can peddle at 10 miles per hour and 3 cal per minute
-#Can peddle at 20 miles per hour and 10 cal per minute
-#Can peddle at 30 miles per hour and 17 cal per minute
-
 #Variables
 t10 = LpVariable("t10", 0, 9)
 t20 = LpVariable("t20", 0, 4.5)
