@@ -52,7 +52,7 @@ def tsp_nn(cities):
 	for c1 in cities:
 		city_dist = []
 		for c2 in cities:
-			city_dist.append(math.sqrt((c1["x"] - c2["x"]) ** 2 + (c1["y"] - c2["y"]) ** 2))
+			city_dist.append(int(round(math.sqrt((c1["x"] - c2["x"]) ** 2 + (c1["y"] - c2["y"]) ** 2))))
 		distances.append(city_dist)
 	#next iterate through cities choosing nearest neighbor
 	length = 0 #distance of travel path
@@ -75,7 +75,7 @@ def tsp_nn(cities):
 	
 	#last add the final return path to the first city
 	length = length + distances[last_city_idx][0]
-	travel_path.append(cities[0])
+	#travel_path.append(cities[0])
 	return {
 		"length": length,
 		"travel_path": travel_path
@@ -89,7 +89,7 @@ def tsp_nn_r(cities):
 	for c1 in cities:
 		city_dist = []
 		for c2 in cities:
-			city_dist.append(math.sqrt((c1["x"] - c2["x"]) ** 2 + (c1["y"] - c2["y"]) ** 2))
+			city_dist.append(int(round(math.sqrt((c1["x"] - c2["x"]) ** 2 + (c1["y"] - c2["y"]) ** 2))))
 		distances.append(city_dist)
 	shortest_length = sys.maxint #update this each time a shorter travel path is found
 	shortest_travel_path = [] #update this each time a shorter path is found
@@ -97,7 +97,7 @@ def tsp_nn_r(cities):
 	for j in range(len(cities)):
 		print "running NN-R starting at city: " + str(j)
 		temp_cities = list(cities)
-		last_city_idx = 0
+		last_city_idx = j
 		travel_path = []
 		length = 0
 		travel_path.append(temp_cities.pop(j))
@@ -119,7 +119,7 @@ def tsp_nn_r(cities):
 		#add the final return path to the first city
 		length = length + distances[last_city_idx][j]
 		print "new shortest length: " + str(length)
-		travel_path.append(cities[j])
+		#travel_path.append(cities[j])
 		if length < shortest_length:
 			shortest_length = length
 			shortest_travel_path = travel_path
@@ -139,7 +139,7 @@ if (len(cities) < 1000):
 	print nnr_result
 	print "NNR Result: " + str(nnr_result["length"])
 	with open(output_file, 'w') as output:
-		output.write(str(nnr_result["length"]) + '\n')
+		output.write(str(int(nnr_result["length"])) + '\n')
 		for c in nnr_result["travel_path"]:
 			output.write(str(c["city"]) + '\n')
 else:
@@ -147,7 +147,7 @@ else:
 	print nn_result
 	print "NN Result:" + str(nn_result["length"])
 	with open(output_file, 'w') as output:
-		output.write(str(nn_result["length"]) + '\n')
+		output.write(str(int(nn_result["length"])) + '\n')
 		for c in nn_result["travel_path"]:
 			output.write(str(c["city"]) + '\n')
 
