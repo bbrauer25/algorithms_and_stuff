@@ -130,6 +130,51 @@ def tsp_nn_r(cities):
 	}
 
 
+##### CHEAPEST LINK ##############################
+# 1. Order edges by ascending weight
+# 2. Go through the edges except for the following
+#	a. vertices may only utilize 2 edges 
+#	b. the edges do not prematurely close the circuit
+#
+##################################################
+def cheapestLink(cities):
+	total = 0
+	visited = [0] * len(cities) 
+	distances = {}
+	usedEdges =[]
+	# Iterate through city combinations
+	# Put edges into dictionary of Key: weight - Value: (city a,city b) tuple
+	for c1 in cities:
+		city_dist = []
+		for c2 in cities:
+			weight = int(round(math.sqrt((c1["x"] - c2["x"]) ** 2 + (c1["y"] - c2["y"]) ** 2)))
+			edge = (c1["city"],c2["city"])
+			if not distances.has_key(weight) and weight != 0:
+				distances[weight] = edge
+	
+	# Sort edge dictionary
+	sd = collections.OrderedDict(sorted(distances.items()))	
+	
+		# Iterate through sorted edges
+		for d in sd:
+			# Check if cities attached to edges have been touched
+			# more than less than 2 time (valid for connection)
+			# also check to see if this is a pre-mature circuit
+			if visited[sd[d][0]] < 2 and visited[sd[d][1]] < 2:  #<------ Need to add check at or within this if to figure out if premature loop
+				visited[sd[d][0]]+=1
+				visited[sd[d][1]]+=1
+				usedEdges.append(sd[d])
+				# Increment Total since this is now a travelled distance
+				total += d
+		
+		print visited		#<------ Somehow
+		print usedEdges 	#<------ use this to
+		print total		#<------ find answer
+	
+	
+	
+	
+	
 #name output file as input file with ".tour" appended
 #if more than 2000 cities, only use nearest neighbor
 #if less than 2000 cities, use repeated nearest neighbor
