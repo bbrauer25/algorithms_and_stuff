@@ -1,0 +1,22 @@
+Run using Python 2.7
+
+Make sure in your current directory you have:
+tsp.py
+input file(s)
+
+and that you have write permissions for that directory
+
+Run from terminal/command line with:
+python tsp.py -f [input file]
+
+The line above will output a file:
+[input file name].tour
+
+Libraries required:
+ sys
+ getopt
+ sha
+ csv
+ math
+ time
+ copy
